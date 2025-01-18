@@ -5,14 +5,39 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Simple Ticker</title>
     <style>
+        body {
+            background-color: #1D3557; /* Dark Blue */
+            color: #A8DADC; /* Soft Light Blue */
+            font-family: Arial, sans-serif;
+            text-align: center;
+            padding-top: 50px;
+        }
+
         #ticker {
             font-size: 50px;
             font-weight: bold;
+        }
+
+        button {
+            background-color: #A8DADC; /* Soft Light Blue */
+            color: #1D3557; /* Dark Blue */
+            font-size: 18px;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            margin: 10px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #1D3557;
+            color: #A8DADC;
         }
     </style>
 </head>
 <body>
     <button onclick="startTicker()">START</button>
+    <button onclick="stopTicker()">STOP</button>
     <div id="ticker">0</div>
 
     <script>
@@ -24,7 +49,11 @@
             tickerInterval = setInterval(function() {
                 counter++;
                 document.getElementById("ticker").innerText = counter;
-            }, 1000); // Update every 1 second
+            }, 10); // Update every 10 milliseconds
+        }
+
+        function stopTicker() {
+            clearInterval(tickerInterval); // Stop the ticker
         }
     </script>
 </body>
