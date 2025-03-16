@@ -522,6 +522,36 @@
             font-size: 14px;
             opacity: 0.8;
         }
+
+        .announcement-banner {
+            background: var(--gradient);
+            color: white;
+            padding: 12px 20px;
+            text-align: center;
+            font-weight: 500;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+
+        .announcement-text {
+            font-size: 16px;
+        }
+
+        .winner-countdown {
+            background: rgba(0, 0, 0, 0.2);
+            padding: 8px 15px;
+            border-radius: 30px;
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .winner-countdown i {
+            color: var(--secondary);
+        }
         
         @media screen and (max-width: 768px) {
             .nav-links {
@@ -568,6 +598,14 @@
     </style>
 </head>
 <body>
+    <div class="announcement-banner">
+        <div class="announcement-text">Today's winner will be announced in:</div>
+        <div class="winner-countdown">
+            <i class="fas fa-clock"></i>
+            <span id="time-to-announcement">Calculating...</span>
+        </div>
+    </div>
+    
     <header>
         <div class="logo-container">
             <div class="logo">
@@ -599,15 +637,15 @@
             
             <div class="countdown">
                 <div class="countdown-item">
-                    <div class="countdown-number">04</div>
+                    <div id="hours" class="countdown-number">04</div>
                     <div class="countdown-label">Hours</div>
                 </div>
                 <div class="countdown-item">
-                    <div class="countdown-number">32</div>
+                    <div id="minutes" class="countdown-number">32</div>
                     <div class="countdown-label">Minutes</div>
                 </div>
                 <div class="countdown-item">
-                    <div class="countdown-number">15</div>
+                    <div id="seconds" class="countdown-number">15</div>
                     <div class="countdown-label">Seconds</div>
                 </div>
             </div>
@@ -742,5 +780,44 @@
         
         <div class="copyright">&copy; 2025 RupeeRumble. All Rights Reserved.</div>
     </div>
+
+    <script>
+        // Countdown timer to 9:30 PM
+        function updateCountdown() {
+            const now = new Date();
+            
+            // Set target time to 9:30 PM today
+            let targetTime = new Date(now);
+            targetTime.setHours(21, 30, 0, 0);
+            
+            // If it's already past 9:30 PM, set target to tomorrow
+            if (now > targetTime) {
+                targetTime.setDate(targetTime.getDate() + 1);
+            }
+            
+            // Calculate time remaining
+            const timeDiff = targetTime - now;
+            
+            // Calculate hours, minutes, seconds
+            const hours = Math.floor(timeDiff / (1000 * 60 * 60));
+            const minutes = Math.floor((timeDiff % (1000 * 60 * 60)) / (1000 * 60));
+            const seconds = Math.floor((timeDiff % (1000 * 60)) / 1000);
+            
+            // Update countdown display
+            document.getElementById('hours').textContent = hours.toString().padStart(2, '0');
+            document.getElementById('minutes').textContent = minutes.toString().padStart(2, '0');
+            document.getElementById('seconds').textContent = seconds.toString().padStart(2, '0');
+            
+            // Update announcement banner
+            document.getElementById('time-to-announcement').textContent = 
+                `${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+            
+            // Continue updating
+            setTimeout(updateCountdown, 1000);
+        }
+        
+        // Start the countdown when page loads
+        document.addEventListener('DOMContentLoaded', updateCountdown);
+    </script>
 </body>
 </html>
